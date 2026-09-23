@@ -34,12 +34,6 @@ export default function PublicHeader({ authenticated = false }) {
                 </Link>
                 <nav id="public-navigation" className={`public-navigation ${menuOpen ? 'is-open' : ''}`} aria-label="Main navigation">
                     {sections.map(section => <a key={section.id} href={`${isHome ? '' : navigation.home || '/'}#${section.id}`} onClick={() => setMenuOpen(false)}>{section.label}</a>)}
-                    {!currentUser && (
-                        <>
-                            <Link href={navigation.login || '/login'} onClick={() => setMenuOpen(false)}>Log In</Link>
-                            <Link href={navigation.register || '/register'} onClick={() => setMenuOpen(false)}>Enlist / Register</Link>
-                        </>
-                    )}
                 </nav>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     {!currentUser ? (
