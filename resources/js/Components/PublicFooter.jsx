@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, usePage } from '@inertiajs/react';
-import { ArrowUpRight, Crosshair, Mail, MapPin } from 'lucide-react';
+import { ArrowUpRight, Crosshair, Mail, MapPin, ShieldCheck } from 'lucide-react';
 
 export default function PublicFooter() {
     const { navigation = {}, company = {} } = usePage().props;
@@ -23,6 +23,7 @@ export default function PublicFooter() {
                 </Link>
             </div>
 
+            {/* Operator Company Details */}
             <div style={{
                 borderTop: '1px solid rgba(255, 255, 255, 0.12)',
                 padding: '18px 0',
@@ -64,6 +65,64 @@ export default function PublicFooter() {
                         </a>
                     </div>
                 )}
+            </div>
+
+            {/* Payment Systems & Security Compliance Logos */}
+            <div style={{
+                borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                padding: '16px 0',
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: '14px',
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: '10px', fontFamily: 'monospace', color: '#7a8e89', letterSpacing: '1px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <ShieldCheck size={14} style={{ color: '#56d4c2' }} /> SECURE PAYMENTS //
+                    </span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                        <div style={{
+                            background: '#ffffff',
+                            borderRadius: '4px',
+                            padding: '4px 10px',
+                            height: '32px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '0 2px 6px rgba(0,0,0,0.35)'
+                        }}>
+                            <img src="/images/payments/visa.png" alt="Visa" style={{ height: '18px', width: 'auto', display: 'block' }} />
+                        </div>
+                        <div style={{
+                            background: '#ffffff',
+                            borderRadius: '4px',
+                            padding: '4px 10px',
+                            height: '32px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '0 2px 6px rgba(0,0,0,0.35)'
+                        }}>
+                            <img src="/images/payments/mastercard.png" alt="Mastercard" style={{ height: '22px', width: 'auto', display: 'block' }} />
+                        </div>
+                        <div style={{
+                            background: '#ffffff',
+                            borderRadius: '4px',
+                            padding: '4px 10px',
+                            height: '32px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '0 2px 6px rgba(0,0,0,0.35)'
+                        }}>
+                            <img src="/images/payments/pci-dss.png" alt="PCI DSS Compliant" style={{ height: '22px', width: 'auto', display: 'block' }} />
+                        </div>
+                    </div>
+                </div>
+                <div style={{ fontSize: '10px', fontFamily: 'monospace', color: '#56d4c2', letterSpacing: '1px' }}>
+                    [ENCRYPTED 256-BIT SSL GATEWAY]
+                </div>
             </div>
 
             <div className="public-footer-bottom">

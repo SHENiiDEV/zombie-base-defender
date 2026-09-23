@@ -119,14 +119,37 @@ export default function PlayerShell({ player, active, children, onShopChange, on
                     <Link href={navigation.cookies || '/cookies'}>Cookie Policy</Link>
                     <Link href={navigation.shop || '/shop'}>Crystal Shop <ArrowUpRight size={14} /></Link>
                 </div>
-                {company?.name && (
-                    <div style={{ width: '100%', fontSize: '11px', color: '#7a8e89', fontFamily: 'monospace', marginTop: '6px', display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center' }}>
-                        <span>© {new Date().getFullYear()} {company.name}</span>
-                        {company.number && <span>&bull; [REG: {company.number}]</span>}
-                        {company.address && <span>&bull; {company.address}</span>}
-                        {company.email && <span>&bull; <a href={`mailto:${company.email}`} style={{ color: '#56d4c2', textDecoration: 'none' }}>{company.email}</a></span>}
+                <div style={{
+                    width: '100%',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '12px',
+                    marginTop: '10px',
+                    paddingTop: '10px',
+                    borderTop: '1px solid rgba(255, 255, 255, 0.08)'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: '9px', fontFamily: 'monospace', color: '#7a8e89' }}>ACCEPTED METHODS:</span>
+                        <div style={{ background: '#fff', borderRadius: '3px', padding: '3px 8px', height: '26px', display: 'inline-flex', alignItems: 'center' }}>
+                            <img src="/images/payments/visa.png" alt="Visa" style={{ height: '14px', width: 'auto' }} />
+                        </div>
+                        <div style={{ background: '#fff', borderRadius: '3px', padding: '3px 8px', height: '26px', display: 'inline-flex', alignItems: 'center' }}>
+                            <img src="/images/payments/mastercard.png" alt="Mastercard" style={{ height: '18px', width: 'auto' }} />
+                        </div>
+                        <div style={{ background: '#fff', borderRadius: '3px', padding: '3px 8px', height: '26px', display: 'inline-flex', alignItems: 'center' }}>
+                            <img src="/images/payments/pci-dss.png" alt="PCI DSS" style={{ height: '18px', width: 'auto' }} />
+                        </div>
                     </div>
-                )}
+                    <span style={{ fontSize: '10px', fontFamily: 'monospace', color: '#56d4c2' }}>256-BIT ENCRYPTED</span>
+                </div>
+                <div style={{ width: '100%', fontSize: '11px', color: '#7a8e89', fontFamily: 'monospace', marginTop: '6px', display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center' }}>
+                    <span>© {new Date().getFullYear()} {company?.name || 'Zombie Base Defender Ltd.'}</span>
+                    <span>&bull; [REG: {company?.number || 'OUTPOST-SEC-09-881'}]</span>
+                    <span>&bull; {company?.address || 'Sector 09 Fortification Line, Perimeter Outpost'}</span>
+                    <span>&bull; <a href={`mailto:${company?.email || 'info@zombiebasedefender.com'}`} style={{ color: '#56d4c2', textDecoration: 'none' }}>{company?.email || 'info@zombiebasedefender.com'}</a></span>
+                </div>
             </footer>
 
             <TopUpModal isOpen={shopOpen} onClose={() => toggleShop(false)} currentGems={safePlayer.gems || 0} />
