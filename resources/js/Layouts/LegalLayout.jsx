@@ -10,10 +10,11 @@ const documents = [
     { key: 'cookies', title: 'Cookie Policy', subtitle: 'What your browser remembers', number: '03' },
 ];
 
-export default function LegalLayout({ type, title, introduction, summary, sections, company, authenticated }) {
-    const { navigation } = usePage().props;
+export default function LegalLayout({ type, title, introduction, summary, sections, company: propCompany, authenticated }) {
+    const { navigation, company: pageCompany } = usePage().props;
+    const company = propCompany || pageCompany || {};
     const [activeSection, setActiveSection] = useState(sections[0]?.id);
-    const hasCompanyDetails = company?.name && company?.number && company?.address && company?.email;
+    const hasCompanyDetails = Boolean(company?.name && company?.email);
 
     useEffect(() => {
         const updateSection = () => {

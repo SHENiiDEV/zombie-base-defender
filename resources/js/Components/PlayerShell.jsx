@@ -5,7 +5,7 @@ import TopUpModal from './TopUpModal';
 import AuthModal from './AuthModal';
 
 export default function PlayerShell({ player, active, children, onShopChange, onNavigate }) {
-    const { navigation = {}, auth = {} } = usePage().props || {};
+    const { navigation = {}, auth = {}, company = {} } = usePage().props || {};
     const [shopOpen, setShopOpen] = useState(false);
     const [authOpen, setAuthOpen] = useState(false);
     const [authMode, setAuthMode] = useState('register');
@@ -119,6 +119,14 @@ export default function PlayerShell({ player, active, children, onShopChange, on
                     <Link href={navigation.cookies || '/cookies'}>Cookie Policy</Link>
                     <Link href={navigation.shop || '/shop'}>Crystal Shop <ArrowUpRight size={14} /></Link>
                 </div>
+                {company?.name && (
+                    <div style={{ width: '100%', fontSize: '11px', color: '#7a8e89', fontFamily: 'monospace', marginTop: '6px', display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center' }}>
+                        <span>© {new Date().getFullYear()} {company.name}</span>
+                        {company.number && <span>&bull; [REG: {company.number}]</span>}
+                        {company.address && <span>&bull; {company.address}</span>}
+                        {company.email && <span>&bull; <a href={`mailto:${company.email}`} style={{ color: '#56d4c2', textDecoration: 'none' }}>{company.email}</a></span>}
+                    </div>
+                )}
             </footer>
 
             <TopUpModal isOpen={shopOpen} onClose={() => toggleShop(false)} currentGems={safePlayer.gems || 0} />

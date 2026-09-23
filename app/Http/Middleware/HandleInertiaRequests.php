@@ -59,6 +59,12 @@ class HandleInertiaRequests extends Middleware
                     'gems' => $request->user()->gems,
                 ] : null,
             ],
+            'company' => [
+                'name' => config('company.name'),
+                'number' => config('company.number'),
+                'address' => config('company.address'),
+                'email' => config('company.email'),
+            ],
             'gem_packs' => PaymentController::PACKS,
         ];
     }
