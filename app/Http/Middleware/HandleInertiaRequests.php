@@ -49,6 +49,8 @@ class HandleInertiaRequests extends Middleware
                 'privacy' => route('legal.privacy', [], false),
                 'cookies' => route('legal.cookies', [], false),
                 'topUp' => route('payments.create-session', [], false),
+                'login' => route('login', [], false),
+                'register' => route('register', [], false),
             ],
             'auth' => [
                 'user' => $request->user() ? [

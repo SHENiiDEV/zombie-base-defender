@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\WelcomeRegistrationMail;
 use App\Models\User;
+use App\Utils\Countries;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -11,25 +12,75 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AuthController extends Controller
 {
     /**
-     * Handle user registration.
+     * Display the Login page.
+     */
+    public function showLogin(Request $request): Response|RedirectResponse
+    {
+        if ($request->user()) {
+            return redirect()->route('game.index');
+        }
+
+        return Inertia::render('Auth/Login', [
+            'status' => session('status'),
+        ]);
+    }
+
+    /**
+     * Display the Registration page.
+     */
+    public function showRegister(Request $request): Response|RedirectResponse
+    {
+        if ($request->user()) {
+            return redirect()->route('game.index');
+        }
+
+        return Inertia::render('Auth/Register', [
+            'countries' => Countries::all(),
+        ]);
+    }
+
+    /**
+     * Handle user registration with full KYC compliance and address details.
      */
     public function register(Request $request): RedirectResponse|JsonResponse
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:50'],
+            'surname' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6'],
+            'phone' => ['required', 'string', 'max:30'],
+            'date_of_birth' => ['required', 'date', 'before:today'],
+            'address_line1' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:100'],
+            'country' => ['required', 'string', Rule::in(Countries::all())],
+            'postal_code' => ['required', 'string', 'max:20'],
+            'terms' => ['accepted'],
+        ], [
+            'country.in' => 'We currently cannot service the selected country jurisdiction due to compliance restrictions.',
+            'terms.accepted' => 'You must agree to the Terms & Conditions and Privacy Policy to enlist.',
         ]);
 
         $user = User::create([
             'name' => $validated['name'],
+            'surname' => $validated['surname'],
             'email' => strtolower($validated['email']),
             'password' => Hash::make($validated['password']),
+            'phone' => $validated['phone'],
+            'date_of_birth' => $validated['date_of_birth'],
+            'address_line1' => $validated['address_line1'],
+            'city' => $validated['city'],
+            'country' => $validated['country'],
+            'postal_code' => $validated['postal_code'],
+            'terms_accepted_at' => now(),
             'gold' => 500,
             'gems' => 250,
             'max_wave' => 1,
@@ -62,13 +113,7 @@ class AuthController extends Controller
         if ($request->wantsJson()) {
             return response()->json([
                 'status' => 'success',
-                'user' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'gold' => $user->gold,
-                    'gems' => $user->gems,
-                ],
+                'user' => $user,
                 'redirect' => route('game.index'),
             ]);
         }

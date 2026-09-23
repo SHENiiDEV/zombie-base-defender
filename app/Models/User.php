@@ -13,7 +13,15 @@ use Illuminate\Notifications\Notifiable;
 
 #[Fillable([
     'name',
+    'surname',
     'email',
+    'phone',
+    'date_of_birth',
+    'address_line1',
+    'city',
+    'country',
+    'postal_code',
+    'terms_accepted_at',
     'password',
     'gold',
     'gems',
@@ -69,6 +77,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'date_of_birth' => 'date',
+            'terms_accepted_at' => 'datetime',
             'gold' => 'integer',
             'gems' => 'integer',
             'max_wave' => 'integer',
