@@ -4,7 +4,11 @@ import { ArrowUpRight, Crosshair, Mail, MapPin } from 'lucide-react';
 
 export default function PublicFooter() {
     const { navigation = {}, company = {} } = usePage().props;
-    const hasCompany = Boolean(company?.name);
+
+    const companyName = company?.name || 'Zombie Base Defender Ltd.';
+    const companyNumber = company?.number || 'OUTPOST-SEC-09-881';
+    const companyAddress = company?.address || 'Sector 09 Fortification Line, Perimeter Outpost';
+    const companyEmail = company?.email || 'info@zombiebasedefender.com';
 
     return (
         <footer className="public-footer">
@@ -19,53 +23,51 @@ export default function PublicFooter() {
                 </Link>
             </div>
 
-            {hasCompany && (
-                <div style={{
-                    borderTop: '1px solid var(--land-line)',
-                    padding: '16px 0',
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap: '12px',
-                    fontSize: '11px',
-                    fontFamily: 'monospace',
-                    color: '#8ba29d'
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                        <span style={{ color: '#e9b85f', fontWeight: 'bold' }}>OPERATOR:</span>
-                        <strong style={{ color: '#edf0e9' }}>{company.name}</strong>
-                        {company.number && (
-                            <span style={{ color: '#56d4c2' }}>[REG: {company.number}]</span>
-                        )}
-                        {company.address && (
-                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                                &bull; <MapPin size={12} style={{ color: '#8ba29d' }} /> {company.address}
-                            </span>
-                        )}
-                    </div>
-                    {company.email && (
-                        <div>
-                            <a
-                                href={`mailto:${company.email}`}
-                                style={{
-                                    color: '#56d4c2',
-                                    textDecoration: 'none',
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: '5px'
-                                }}
-                            >
-                                <Mail size={12} />
-                                <span>{company.email}</span>
-                            </a>
-                        </div>
+            <div style={{
+                borderTop: '1px solid rgba(255, 255, 255, 0.12)',
+                padding: '18px 0',
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: '12px',
+                fontSize: '11px',
+                fontFamily: 'monospace',
+                color: '#8ba29d'
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                    <span style={{ color: '#e9b85f', fontWeight: 'bold' }}>OPERATOR:</span>
+                    <strong style={{ color: '#edf0e9' }}>{companyName}</strong>
+                    {companyNumber && (
+                        <span style={{ color: '#56d4c2' }}>[REG: {companyNumber}]</span>
+                    )}
+                    {companyAddress && (
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                            &bull; <MapPin size={12} style={{ color: '#8ba29d' }} /> {companyAddress}
+                        </span>
                     )}
                 </div>
-            )}
+                {companyEmail && (
+                    <div>
+                        <a
+                            href={`mailto:${companyEmail}`}
+                            style={{
+                                color: '#56d4c2',
+                                textDecoration: 'none',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '5px'
+                            }}
+                        >
+                            <Mail size={12} />
+                            <span>{companyEmail}</span>
+                        </a>
+                    </div>
+                )}
+            </div>
 
             <div className="public-footer-bottom">
-                <span>© {new Date().getFullYear()} {company?.name || 'Zombie Base Defender'}</span>
+                <span>© {new Date().getFullYear()} {companyName}</span>
                 <nav aria-label="Legal information">
                     <Link href={navigation.terms || '/terms'}>Terms of Service</Link>
                     <Link href={navigation.privacy || '/privacy'}>Privacy Policy</Link>
