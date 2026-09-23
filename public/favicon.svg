@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#202c28" />
+      <stop offset="50%" stop-color="#141c1a" />
+      <stop offset="100%" stop-color="#0b100f" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#e9b85f" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- Tactical Crest Background matching Brand Mark -->
+  <polygon points="4,2 60,2 60,49 32,62 4,49" fill="url(#shieldGrad)" stroke="#e9b85f" stroke-width="2.5" stroke-linejoin="round" />
+  
+  <!-- Subtle inner border -->
+  <polygon points="8,6 56,6 56,46 32,57 8,46" fill="none" stroke="#2e3a36" stroke-width="1.2" />
+
+  <!-- Tactical Crosshair in Brand Signal Amber -->
+  <g filter="url(#glow)">
+    <!-- Outer Crosshair Ring -->
+    <circle cx="32" cy="28" r="15" fill="none" stroke="#e9b85f" stroke-width="2.5" />
+    
+    <!-- Inner Target Ring -->
+    <circle cx="32" cy="28" r="6.5" fill="none" stroke="#e9b85f" stroke-width="1.8" />
+    
+    <!-- Center Dot -->
+    <circle cx="32" cy="28" r="2.5" fill="#e9b85f" />
+
+    <!-- 4 Directional Reticle Spikes -->
+    <!-- Top -->
+    <line x1="32" y1="7" x2="32" y2="18" stroke="#e9b85f" stroke-width="2.5" stroke-linecap="round" />
+    <!-- Bottom -->
+    <line x1="32" y1="38" x2="32" y2="49" stroke="#e9b85f" stroke-width="2.5" stroke-linecap="round" />
+    <!-- Left -->
+    <line x1="11" y1="28" x2="22" y2="28" stroke="#e9b85f" stroke-width="2.5" stroke-linecap="round" />
+    <!-- Right -->
+    <line x1="42" y1="28" x2="53" y2="28" stroke="#e9b85f" stroke-width="2.5" stroke-linecap="round" />
+    
+    <!-- Diagonal Corner Bracket Ticks -->
+    <line x1="21" y1="17" x2="24" y2="20" stroke="#e9b85f" stroke-width="1.5" />
+    <line x1="43" y1="17" x2="40" y2="20" stroke="#e9b85f" stroke-width="1.5" />
+    <line x1="21" y1="39" x2="24" y2="36" stroke="#e9b85f" stroke-width="1.5" />
+    <line x1="43" y1="39" x2="40" y2="36" stroke="#e9b85f" stroke-width="1.5" />
+  </g>
+</svg>
