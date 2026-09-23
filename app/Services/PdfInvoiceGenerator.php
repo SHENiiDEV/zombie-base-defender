@@ -13,13 +13,14 @@ class PdfInvoiceGenerator
     public function generate(Payment $payment, ?User $user = null): string
     {
         $user = $user ?? $payment->user;
-        $userName = $user?->name ?? 'Survivor Commander';
-        $userEmail = $user?->email ?? 'unknown@zombie.game';
+        $fullName = trim(($user?->name ?? '').' '.($user?->surname ?? ''));
+        $userName = ! empty($fullName) ? $fullName : 'Survivor Commander';
+        $userEmail = $user?->email ?? 'commander@zombiebasedefender.com';
 
         $company = config('company', []);
-        $companyName = $company['name'] ?? 'ZOMBIE BASE DEFENDER OUTPOST PROTOCOL';
+        $companyName = $company['name'] ?? 'Zombie Base Defender Ltd.';
         $companyNumber = $company['number'] ?? 'OUTPOST-SEC-09-881';
-        $companyAddress = $company['address'] ?? 'Sector 09 Quarantine Perimeter, Tactical Fortification Line';
+        $companyAddress = $company['address'] ?? 'Sector 09 Fortification Line, Perimeter Outpost';
         $companyEmail = config('mail.from.address', 'info@zombiebasedefender.com');
 
         $invoiceNumber = 'INV-'.strtoupper(substr($payment->payment_id, 4, 10));
@@ -42,6 +43,13 @@ class PdfInvoiceGenerator
         }
         $description = ! empty($itemDesc) ? implode(' + ', $itemDesc).' Depot Supply Drop' : 'Depot Resource Top-Up';
 
+        // User location / coordinates
+        $locParts = array_filter([$user?->city, $user?->country]);
+        $userLocation = ! empty($locParts) ? implode(', ', $locParts) : 'Sector 09 Fortification';
+
+        // Cryptographic verification hash
+        $hashRaw = strtoupper(hash('sha256', $payment->payment_id.$amountFormatted));
+
         // Prepare PDF Stream
         $stream = [];
 
@@ -53,265 +61,340 @@ class PdfInvoiceGenerator
         $stream[] = '0.91 0.72 0.37 rg'; // #e9b85f
         $stream[] = '0 834 595.28 8 re f';
 
-        // 3. Header Grid Accents / Border Frame
+        // 3. Outer Perimeter Grid Frame
         $stream[] = '0.15 0.20 0.22 RG'; // #263338
         $stream[] = '1 w';
         $stream[] = '36 36 523.28 770 re s';
 
-        // Inner header container
+        // ==========================================
+        // HEADER CONTAINER (Y: 715 to 797, H: 82)
+        // ==========================================
         $stream[] = '0.10 0.13 0.15 rg'; // #1a2126
-        $stream[] = '44 720 507.28 78 re f';
-        $stream[] = '0.91 0.72 0.37 RG';
+        $stream[] = '44 715 507.28 82 re f';
+        $stream[] = '0.91 0.72 0.37 RG'; // Gold border
         $stream[] = '0.75 w';
-        $stream[] = '44 720 507.28 78 re s';
+        $stream[] = '44 715 507.28 82 re s';
 
-        // Header Text: Brand & Tagline
-        $stream[] = 'BT';
-        $stream[] = '/F2 16 Tf';
-        $stream[] = '0.91 0.72 0.37 rg';
-        $stream[] = '58 768 Td';
-        $stream[] = $this->pdfEscape('ZOMBIE BASE DEFENDER // SECTOR 09').' Tj';
-        $stream[] = 'ET';
-
-        $stream[] = 'BT';
-        $stream[] = '/F1 9 Tf';
-        $stream[] = '0.58 0.68 0.66 rg';
-        $stream[] = '58 750 Td';
-        $stream[] = $this->pdfEscape('OFFICIAL DEFENSE DEPOT SUPPLY VOUCHER & INVOICE').' Tj';
-        $stream[] = 'ET';
-
-        $stream[] = 'BT';
-        $stream[] = '/F3 8 Tf';
-        $stream[] = '0.45 0.55 0.53 rg';
-        $stream[] = '58 734 Td';
-        $stream[] = $this->pdfEscape('CLEARANCE LEVEL 4 // QUARANTINE PERIMETER HARBOR').' Tj';
-        $stream[] = 'ET';
-
-        // Invoice Meta Right-Aligned in Header
+        // Left Header: Brand & Protocol
         $stream[] = 'BT';
         $stream[] = '/F2 14 Tf';
+        $stream[] = '0.91 0.72 0.37 rg';
+        $stream[] = '58 767 Td';
+        $stream[] = $this->pdfEscape('ZOMBIE BASE DEFENDER').' Tj';
+        $stream[] = 'ET';
+
+        $stream[] = 'BT';
+        $stream[] = '/F4 8 Tf';
+        $stream[] = '0.33 0.83 0.60 rg'; // Emerald
+        $stream[] = '58 751 Td';
+        $stream[] = $this->pdfEscape('OUTPOST SEC-09 // QUARANTINE PERIMETER').' Tj';
+        $stream[] = 'ET';
+
+        $stream[] = 'BT';
+        $stream[] = '/F3 7.5 Tf';
+        $stream[] = '0.48 0.58 0.55 rg';
+        $stream[] = '58 736 Td';
+        $stream[] = $this->pdfEscape('OFFICIAL DEFENSE DEPOT SUPPLY VOUCHER').' Tj';
+        $stream[] = 'ET';
+
+        // Right Header: Invoice Meta (Positioned at X: 370, well clear of left column)
+        $stream[] = 'BT';
+        $stream[] = '/F2 13 Tf';
         $stream[] = '1 1 1 rg';
-        $stream[] = '360 768 Td';
+        $stream[] = '370 767 Td';
         $stream[] = $this->pdfEscape($invoiceNumber).' Tj';
         $stream[] = 'ET';
 
         $stream[] = 'BT';
-        $stream[] = '/F3 9 Tf';
-        $stream[] = '0.58 0.68 0.66 rg';
-        $stream[] = '360 750 Td';
+        $stream[] = '/F3 7.5 Tf';
+        $stream[] = '0.55 0.65 0.62 rg';
+        $stream[] = '370 751 Td';
         $stream[] = $this->pdfEscape('DATE: '.$date).' Tj';
         $stream[] = 'ET';
 
         $stream[] = 'BT';
-        $stream[] = '/F3 9 Tf';
-        $stream[] = '0.33 0.83 0.60 rg'; // Emerald
-        $stream[] = '360 734 Td';
+        $stream[] = '/F4 8 Tf';
+        $stream[] = '0.33 0.83 0.60 rg';
+        $stream[] = '370 736 Td';
         $stream[] = $this->pdfEscape('STATUS: CONFIRMED // FULFILLED').' Tj';
         $stream[] = 'ET';
 
-        // Two Information Panels: Billed To (Left) & Supplier (Right)
-        // Left Box: OPERATOR (Customer)
+        // ==========================================
+        // OPERATOR & SUPPLIER PANELS (Y: 605, H: 95)
+        // ==========================================
+        // Left Box: OPERATOR (W: 246)
         $stream[] = '0.09 0.12 0.13 rg';
-        $stream[] = '44 610 245 92 re f';
+        $stream[] = '44 605 246 95 re f';
         $stream[] = '0.18 0.24 0.26 RG';
-        $stream[] = '44 610 245 92 re s';
+        $stream[] = '44 605 246 95 re s';
 
         $stream[] = 'BT';
-        $stream[] = '/F4 9 Tf';
+        $stream[] = '/F4 8.5 Tf';
         $stream[] = '0.91 0.72 0.37 rg';
-        $stream[] = '56 684 Td';
+        $stream[] = '56 681 Td';
         $stream[] = $this->pdfEscape('// BILLED OPERATOR').' Tj';
         $stream[] = 'ET';
 
         $stream[] = 'BT';
-        $stream[] = '/F2 11 Tf';
+        $stream[] = '/F2 10.5 Tf';
         $stream[] = '1 1 1 rg';
-        $stream[] = '56 666 Td';
-        $stream[] = $this->pdfEscape($userName).' Tj';
+        $stream[] = '56 664 Td';
+        $stream[] = $this->pdfEscape(substr($userName, 0, 30)).' Tj';
         $stream[] = 'ET';
 
         $stream[] = 'BT';
-        $stream[] = '/F3 8.5 Tf';
-        $stream[] = '0.65 0.75 0.73 rg';
-        $stream[] = '56 648 Td';
-        $stream[] = $this->pdfEscape('EMAIL: '.$userEmail).' Tj';
+        $stream[] = '/F3 7.5 Tf';
+        $stream[] = '0.34 0.83 0.76 rg';
+        $stream[] = '56 649 Td';
+        $stream[] = $this->pdfEscape('EMAIL: '.substr($userEmail, 0, 30)).' Tj';
         $stream[] = 'ET';
 
         $stream[] = 'BT';
-        $stream[] = '/F3 8 Tf';
-        $stream[] = '0.45 0.55 0.53 rg';
-        $stream[] = '56 630 Td';
-        $stream[] = $this->pdfEscape('SECTOR: 09 / LAT 52.5200 N / LON 13.4050 E').' Tj';
+        $stream[] = '/F3 7.5 Tf';
+        $stream[] = '0.55 0.65 0.62 rg';
+        $stream[] = '56 635 Td';
+        $stream[] = $this->pdfEscape('LOC: '.substr($userLocation, 0, 34)).' Tj';
         $stream[] = 'ET';
 
-        // Right Box: SUPPLIER (Company)
+        $stream[] = 'BT';
+        $stream[] = '/F3 7 Tf';
+        $stream[] = '0.38 0.48 0.45 rg';
+        $stream[] = '56 621 Td';
+        $stream[] = $this->pdfEscape('SECTOR: 09 / FORTIFICATION LINE').' Tj';
+        $stream[] = 'ET';
+
+        // Right Box: SUPPLIER (W: 246, Starts at X: 305)
         $stream[] = '0.09 0.12 0.13 rg';
-        $stream[] = '306 610 245 92 re f';
+        $stream[] = '305 605 246 95 re f';
         $stream[] = '0.18 0.24 0.26 RG';
-        $stream[] = '306 610 245 92 re s';
+        $stream[] = '305 605 246 95 re s';
 
         $stream[] = 'BT';
-        $stream[] = '/F4 9 Tf';
+        $stream[] = '/F4 8.5 Tf';
         $stream[] = '0.91 0.72 0.37 rg';
-        $stream[] = '318 684 Td';
+        $stream[] = '317 681 Td';
         $stream[] = $this->pdfEscape('// SUPPLYING OUTPOST').' Tj';
         $stream[] = 'ET';
 
         $stream[] = 'BT';
         $stream[] = '/F2 9.5 Tf';
         $stream[] = '1 1 1 rg';
-        $stream[] = '318 666 Td';
-        $stream[] = $this->pdfEscape($companyName).' Tj';
-        $stream[] = 'ET';
-
-        $stream[] = 'BT';
-        $stream[] = '/F3 8 Tf';
-        $stream[] = '0.65 0.75 0.73 rg';
-        $stream[] = '318 648 Td';
-        $stream[] = $this->pdfEscape('REG: '.$companyNumber.' // '.$companyEmail).' Tj';
+        $stream[] = '317 664 Td';
+        $stream[] = $this->pdfEscape(substr($companyName, 0, 32)).' Tj';
         $stream[] = 'ET';
 
         $stream[] = 'BT';
         $stream[] = '/F3 7.5 Tf';
-        $stream[] = '0.45 0.55 0.53 rg';
-        $stream[] = '318 630 Td';
-        $stream[] = $this->pdfEscape(substr($companyAddress, 0, 48)).' Tj';
+        $stream[] = '0.55 0.65 0.62 rg';
+        $stream[] = '317 649 Td';
+        $stream[] = $this->pdfEscape('REG: '.substr($companyNumber, 0, 32)).' Tj';
         $stream[] = 'ET';
 
-        // 4. Line Items Table
-        // Table Header
-        $stream[] = '0.12 0.16 0.18 rg';
-        $stream[] = '44 560 507.28 26 re f';
-        $stream[] = '0.91 0.72 0.37 RG';
-        $stream[] = '44 560 507.28 26 re s';
+        $stream[] = 'BT';
+        $stream[] = '/F3 7.5 Tf';
+        $stream[] = '0.34 0.83 0.76 rg';
+        $stream[] = '317 635 Td';
+        $stream[] = $this->pdfEscape('EMAIL: '.substr($companyEmail, 0, 32)).' Tj';
+        $stream[] = 'ET';
 
         $stream[] = 'BT';
-        $stream[] = '/F4 9 Tf';
+        $stream[] = '/F3 7 Tf';
+        $stream[] = '0.38 0.48 0.45 rg';
+        $stream[] = '317 621 Td';
+        $stream[] = $this->pdfEscape('ADDR: '.substr($companyAddress, 0, 34)).' Tj';
+        $stream[] = 'ET';
+
+        // ==========================================
+        // LINE ITEMS TABLE (Y: 518 to 589)
+        // ==========================================
+        // Table Header
+        $stream[] = '0.12 0.16 0.18 rg';
+        $stream[] = '44 565 507.28 24 re f';
+        $stream[] = '0.91 0.72 0.37 RG';
+        $stream[] = '44 565 507.28 24 re s';
+
+        $stream[] = 'BT';
+        $stream[] = '/F4 8 Tf';
         $stream[] = '0.91 0.72 0.37 rg';
-        $stream[] = '56 569 Td';
+        $stream[] = '56 573 Td';
         $stream[] = $this->pdfEscape('RESOURCE SPECIFICATION').' Tj';
-        $stream[] = '260 0 Td';
+        $stream[] = 'ET';
+
+        $stream[] = 'BT';
+        $stream[] = '/F4 8 Tf';
+        $stream[] = '0.91 0.72 0.37 rg';
+        $stream[] = '330 573 Td';
         $stream[] = $this->pdfEscape('CLASS').' Tj';
-        $stream[] = '75 0 Td';
+        $stream[] = 'ET';
+
+        $stream[] = 'BT';
+        $stream[] = '/F4 8 Tf';
+        $stream[] = '0.91 0.72 0.37 rg';
+        $stream[] = '405 573 Td';
         $stream[] = $this->pdfEscape('QTY').' Tj';
-        $stream[] = '70 0 Td';
+        $stream[] = 'ET';
+
+        $stream[] = 'BT';
+        $stream[] = '/F4 8 Tf';
+        $stream[] = '0.91 0.72 0.37 rg';
+        $stream[] = '468 573 Td';
         $stream[] = $this->pdfEscape('TOTAL').' Tj';
         $stream[] = 'ET';
 
-        // Table Row
+        // Table Row (Y: 518, H: 47)
         $stream[] = '0.08 0.11 0.12 rg';
-        $stream[] = '44 515 507.28 45 re f';
+        $stream[] = '44 518 507.28 47 re f';
         $stream[] = '0.16 0.22 0.24 RG';
-        $stream[] = '44 515 507.28 45 re s';
+        $stream[] = '44 518 507.28 47 re s';
 
         $stream[] = 'BT';
-        $stream[] = '/F2 10.5 Tf';
+        $stream[] = '/F2 10 Tf';
         $stream[] = '1 1 1 rg';
-        $stream[] = '56 541 Td';
-        $stream[] = $this->pdfEscape($description).' Tj';
+        $stream[] = '56 546 Td';
+        $stream[] = $this->pdfEscape(substr($description, 0, 42)).' Tj';
         $stream[] = 'ET';
 
         $stream[] = 'BT';
-        $stream[] = '/F3 8 Tf';
-        $stream[] = '0.55 0.65 0.63 rg';
-        $stream[] = '56 526 Td';
-        $stream[] = $this->pdfEscape('Ref: '.$payment->payment_id.' // Immediate Armory Delivery').' Tj';
+        $stream[] = '/F3 7.5 Tf';
+        $stream[] = '0.48 0.58 0.55 rg';
+        $stream[] = '56 531 Td';
+        $stream[] = $this->pdfEscape('Ref: '.substr($payment->payment_id, 0, 22).' // Armory Drop').' Tj';
         $stream[] = 'ET';
 
         $stream[] = 'BT';
-        $stream[] = '/F3 9 Tf';
-        $stream[] = '0.65 0.75 0.73 rg';
-        $stream[] = '316 534 Td';
+        $stream[] = '/F3 8.5 Tf';
+        $stream[] = '0.55 0.65 0.62 rg';
+        $stream[] = '330 538 Td';
         $stream[] = $this->pdfEscape('SUPPLY').' Tj';
-        $stream[] = '80 0 Td';
+        $stream[] = 'ET';
+
+        $stream[] = 'BT';
+        $stream[] = '/F3 8.5 Tf';
+        $stream[] = '0.55 0.65 0.62 rg';
+        $stream[] = '412 538 Td';
         $stream[] = $this->pdfEscape('1').' Tj';
-        $stream[] = '65 0 Td';
-        $stream[] = '/F4 10 Tf';
+        $stream[] = 'ET';
+
+        $stream[] = 'BT';
+        $stream[] = '/F4 9.5 Tf';
         $stream[] = '0.91 0.72 0.37 rg';
+        $stream[] = '468 538 Td';
         $stream[] = $this->pdfEscape($amountFormatted).' Tj';
         $stream[] = 'ET';
 
-        // 5. Total Settlement Summary Box
-        $stream[] = '0.10 0.13 0.15 rg';
-        $stream[] = '316 415 235.28 85 re f';
-        $stream[] = '0.91 0.72 0.37 RG';
-        $stream[] = '316 415 235.28 85 re s';
-
-        $stream[] = 'BT';
-        $stream[] = '/F3 9 Tf';
-        $stream[] = '0.65 0.75 0.73 rg';
-        $stream[] = '332 478 Td';
-        $stream[] = $this->pdfEscape('NET AMOUNT:').' Tj';
-        $stream[] = '100 0 Td';
-        $stream[] = $this->pdfEscape($amountFormatted).' Tj';
-        $stream[] = 'ET';
-
-        $stream[] = 'BT';
-        $stream[] = '/F3 9 Tf';
-        $stream[] = '0.65 0.75 0.73 rg';
-        $stream[] = '332 458 Td';
-        $stream[] = $this->pdfEscape('TAX / VAT (0%):').' Tj';
-        $stream[] = '100 0 Td';
-        $stream[] = $this->pdfEscape($currencySymbol.'0.00').' Tj';
-        $stream[] = 'ET';
-
-        $stream[] = '0.25 0.30 0.32 RG';
-        $stream[] = '330 445 205 0.5 re s';
-
-        $stream[] = 'BT';
-        $stream[] = '/F4 12 Tf';
-        $stream[] = '0.91 0.72 0.37 rg';
-        $stream[] = '332 426 Td';
-        $stream[] = $this->pdfEscape('TOTAL PAID:').' Tj';
-        $stream[] = '90 0 Td';
-        $stream[] = '1 1 1 rg';
-        $stream[] = $this->pdfEscape($amountFormatted).' Tj';
-        $stream[] = 'ET';
-
-        // Verification Stamp / Seal on Bottom Left
+        // ==========================================
+        // BOTTOM PANELS: CLEARANCE & TOTALS (Y: 395, H: 105)
+        // ==========================================
+        // Left Box: CRYPTOGRAPHIC CLEARANCE SEAL (W: 246)
         $stream[] = '0.08 0.11 0.12 rg';
-        $stream[] = '44 415 245 85 re f';
-        $stream[] = '0.33 0.83 0.60 RG';
-        $stream[] = '44 415 245 85 re s';
+        $stream[] = '44 395 246 105 re f';
+        $stream[] = '0.33 0.83 0.60 RG'; // Emerald border
+        $stream[] = '44 395 246 105 re s';
 
         $stream[] = 'BT';
-        $stream[] = '/F4 9 Tf';
+        $stream[] = '/F4 8 Tf';
         $stream[] = '0.33 0.83 0.60 rg';
-        $stream[] = '56 478 Td';
+        $stream[] = '56 483 Td';
         $stream[] = $this->pdfEscape('/// CRYPTOGRAPHIC CLEARANCE SEAL').' Tj';
         $stream[] = 'ET';
 
+        // Hash safely split into 3 segments so it never overflows!
         $stream[] = 'BT';
-        $stream[] = '/F3 8 Tf';
-        $stream[] = '0.65 0.75 0.73 rg';
-        $stream[] = '56 460 Td';
-        $stream[] = $this->pdfEscape('HASH: '.strtoupper(hash('sha256', $payment->payment_id.$amountFormatted))).' Tj';
+        $stream[] = '/F3 6.8 Tf';
+        $stream[] = '0.48 0.58 0.55 rg';
+        $stream[] = '56 468 Td';
+        $stream[] = $this->pdfEscape('HASH: '.substr($hashRaw, 0, 24)).' Tj';
+        $stream[] = '0 -10 Td';
+        $stream[] = $this->pdfEscape('      '.substr($hashRaw, 24, 24)).' Tj';
+        $stream[] = '0 -10 Td';
+        $stream[] = $this->pdfEscape('      '.substr($hashRaw, 48)).' Tj';
         $stream[] = 'ET';
 
         $stream[] = 'BT';
-        $stream[] = '/F3 8 Tf';
-        $stream[] = '0.45 0.55 0.53 rg';
-        $stream[] = '56 444 Td';
+        $stream[] = '/F3 7 Tf';
+        $stream[] = '0.34 0.83 0.76 rg';
+        $stream[] = '56 428 Td';
         $stream[] = $this->pdfEscape('TERMINAL: NODE-SECTOR09-PROD-A').' Tj';
         $stream[] = 'ET';
 
         $stream[] = 'BT';
-        $stream[] = '/F3 8 Tf';
+        $stream[] = '/F4 7.5 Tf';
         $stream[] = '0.33 0.83 0.60 rg';
-        $stream[] = '56 426 Td';
+        $stream[] = '56 411 Td';
         $stream[] = $this->pdfEscape('ALL RIGHTS SECURED. THE FINAL LINE IS YOU.').' Tj';
         $stream[] = 'ET';
 
-        // 6. Footer Terms & Legal Information
+        // Right Box: TOTAL SETTLEMENT SUMMARY (W: 246, Starts at X: 305)
+        $stream[] = '0.10 0.13 0.15 rg';
+        $stream[] = '305 395 246 105 re f';
+        $stream[] = '0.91 0.72 0.37 RG'; // Gold border
+        $stream[] = '305 395 246 105 re s';
+
         $stream[] = 'BT';
-        $stream[] = '/F3 8 Tf';
-        $stream[] = '0.45 0.55 0.53 rg';
-        $stream[] = '44 80 Td';
+        $stream[] = '/F3 8.5 Tf';
+        $stream[] = '0.55 0.65 0.62 rg';
+        $stream[] = '320 480 Td';
+        $stream[] = $this->pdfEscape('NET AMOUNT:').' Tj';
+        $stream[] = 'ET';
+
+        $stream[] = 'BT';
+        $stream[] = '/F3 8.5 Tf';
+        $stream[] = '1 1 1 rg';
+        $stream[] = '445 480 Td';
+        $stream[] = $this->pdfEscape($amountFormatted).' Tj';
+        $stream[] = 'ET';
+
+        $stream[] = 'BT';
+        $stream[] = '/F3 8.5 Tf';
+        $stream[] = '0.55 0.65 0.62 rg';
+        $stream[] = '320 462 Td';
+        $stream[] = $this->pdfEscape('TAX / VAT (0%):').' Tj';
+        $stream[] = 'ET';
+
+        $stream[] = 'BT';
+        $stream[] = '/F3 8.5 Tf';
+        $stream[] = '1 1 1 rg';
+        $stream[] = '445 462 Td';
+        $stream[] = $this->pdfEscape($currencySymbol.'0.00').' Tj';
+        $stream[] = 'ET';
+
+        // Divider
+        $stream[] = '0.22 0.28 0.30 RG';
+        $stream[] = '318 450 220 0.5 re s';
+
+        $stream[] = 'BT';
+        $stream[] = '/F2 11 Tf';
+        $stream[] = '0.91 0.72 0.37 rg';
+        $stream[] = '320 427 Td';
+        $stream[] = $this->pdfEscape('TOTAL PAID:').' Tj';
+        $stream[] = 'ET';
+
+        $stream[] = 'BT';
+        $stream[] = '/F2 13 Tf';
+        $stream[] = '1 1 1 rg';
+        $stream[] = '430 427 Td';
+        $stream[] = $this->pdfEscape($amountFormatted).' Tj';
+        $stream[] = 'ET';
+
+        $stream[] = 'BT';
+        $stream[] = '/F4 7.5 Tf';
+        $stream[] = '0.33 0.83 0.60 rg';
+        $stream[] = '320 409 Td';
+        $stream[] = $this->pdfEscape('FULFILLED VIA SECURE DEPOT').' Tj';
+        $stream[] = 'ET';
+
+        // ==========================================
+        // FOOTER TERMS & COMPLIANCE NOTES (Y: 60 to 105)
+        // ==========================================
+        $stream[] = 'BT';
+        $stream[] = '/F3 7.5 Tf';
+        $stream[] = '0.40 0.50 0.48 rg';
+        $stream[] = '44 95 Td';
         $stream[] = $this->pdfEscape('This electronic document serves as an official invoice and proof of purchase for digital defense resources.').' Tj';
         $stream[] = '0 -13 Td';
-        $stream[] = $this->pdfEscape('For support inquiries or dispute resolution, contact: '.$companyEmail).' Tj';
+        $stream[] = $this->pdfEscape('Support & dispute inquiries: '.$companyEmail.' // Ref: '.$payment->payment_id).' Tj';
         $stream[] = '0 -13 Td';
-        $stream[] = $this->pdfEscape('Outpost 09 Cyber Fortifications - Zombie Base Defender. All rights reserved.').' Tj';
+        $stream[] = $this->pdfEscape($companyName.' - All rights reserved. Outpost 09 Fortification Protocol.').' Tj';
         $stream[] = 'ET';
 
         // Bottom Accent Laser
