@@ -4,6 +4,7 @@ import { ArrowDown, ArrowRight, ArrowUpRight, Crosshair, Gem, Radio, Shield, Wre
 import EquipmentArt from '../Components/EquipmentArt';
 import PublicHeader from '../Components/PublicHeader';
 import PublicFooter from '../Components/PublicFooter';
+import HeroVideo from '../Components/HeroVideo';
 
 export default function Landing({ is_authenticated = false, player, featured_skins = [] }) {
     const { navigation } = usePage().props;
@@ -17,7 +18,7 @@ export default function Landing({ is_authenticated = false, player, featured_ski
             <PublicHeader authenticated={is_authenticated} />
             <main id="main-content">
                 <section className="landing-hero campaign-hero" aria-labelledby="campaign-title">
-                    <img src="/defender-key-art.webp" alt="A lone defender watches a ruined city from the last barricade" className="hero-art" fetchPriority="high" width="1536" height="1024" />
+                    <HeroVideo />
                     <div className="hero-shade" />
                     <div className="landing-container campaign-hero-content">
                         <span className="section-kicker"><span className="campaign-status" /> SECTOR 09 · THE LAST OUTPOST</span>

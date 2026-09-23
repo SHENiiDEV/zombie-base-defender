@@ -1,139 +1,146 @@
 {
-  "_EquipmentArt-mHC7mL_Q.js": {
-    "file": "assets/EquipmentArt-mHC7mL_Q.js",
+  "_EquipmentArt-FMT6Or97.js": {
+    "file": "assets/EquipmentArt-FMT6Or97.js",
     "name": "EquipmentArt",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_LegalLayout--Gy_G6Qo.js": {
-    "file": "assets/LegalLayout--Gy_G6Qo.js",
+  "_LegalLayout-Tu1HmX9b.js": {
+    "file": "assets/LegalLayout-Tu1HmX9b.js",
     "name": "LegalLayout",
     "imports": [
       "resources/js/app.jsx",
-      "_x-DQ-CK9g8.js",
-      "_arrow-down-CUaxlbfN.js",
-      "_check-D-yyBD1_.js",
-      "_PublicFooter-Bzc2f25A.js"
+      "_x-DHc-taZH.js",
+      "_arrow-down-BJ43nInO.js",
+      "_check-Cd_zvMAB.js",
+      "_PublicFooter-DSwQKb6S.js"
     ]
   },
-  "_PlayerShell-Dvi6-1Ei.js": {
-    "file": "assets/PlayerShell-Dvi6-1Ei.js",
+  "_PlayerShell-DhEldB6S.js": {
+    "file": "assets/PlayerShell-DhEldB6S.js",
     "name": "PlayerShell",
     "imports": [
       "resources/js/app.jsx",
-      "_x-DQ-CK9g8.js",
-      "_wrench-D5UGscPj.js",
-      "_check-D-yyBD1_.js",
-      "_loader-circle-ctOOq3VJ.js",
-      "_radio-Cnt4mBr0.js",
-      "_sparkles-BRId6woh.js"
+      "_x-DHc-taZH.js",
+      "_wrench-BzZKkY0v.js",
+      "_check-Cd_zvMAB.js",
+      "_loader-circle-4R6y0Q9_.js",
+      "_radio-CJ89v3Ar.js",
+      "_sparkles-Cb-OvI0t.js"
     ]
   },
-  "_PublicFooter-Bzc2f25A.js": {
-    "file": "assets/PublicFooter-Bzc2f25A.js",
+  "_PublicFooter-DSwQKb6S.js": {
+    "file": "assets/PublicFooter-DSwQKb6S.js",
     "name": "PublicFooter",
     "imports": [
       "resources/js/app.jsx",
-      "_x-DQ-CK9g8.js"
+      "_x-DHc-taZH.js"
     ]
   },
-  "_SkinCollection-edsHNuam.js": {
-    "file": "assets/SkinCollection-edsHNuam.js",
+  "_SkinCollection-BpEzrGLo.js": {
+    "file": "assets/SkinCollection-BpEzrGLo.js",
     "name": "SkinCollection",
     "imports": [
       "resources/js/app.jsx",
-      "_x-DQ-CK9g8.js",
-      "_wrench-D5UGscPj.js",
-      "_check-D-yyBD1_.js",
-      "_EquipmentArt-mHC7mL_Q.js",
+      "_x-DHc-taZH.js",
+      "_wrench-BzZKkY0v.js",
+      "_check-Cd_zvMAB.js",
+      "_EquipmentArt-FMT6Or97.js",
       "_equipment-CxJen-T6.js",
-      "_useEquipmentAction-CwtNWebd.js"
+      "_useEquipmentAction-BQiEuBKk.js"
     ]
   },
-  "_arrow-down-CUaxlbfN.js": {
-    "file": "assets/arrow-down-CUaxlbfN.js",
+  "_arrow-down-BJ43nInO.js": {
+    "file": "assets/arrow-down-BJ43nInO.js",
     "name": "arrow-down",
     "imports": [
-      "_x-DQ-CK9g8.js"
+      "_x-DHc-taZH.js"
     ]
   },
-  "_check-D-yyBD1_.js": {
-    "file": "assets/check-D-yyBD1_.js",
+  "_check-Cd_zvMAB.js": {
+    "file": "assets/check-Cd_zvMAB.js",
     "name": "check",
     "imports": [
-      "_x-DQ-CK9g8.js"
+      "_x-DHc-taZH.js"
     ]
   },
   "_equipment-CxJen-T6.js": {
     "file": "assets/equipment-CxJen-T6.js",
     "name": "equipment"
   },
-  "_loader-circle-ctOOq3VJ.js": {
-    "file": "assets/loader-circle-ctOOq3VJ.js",
+  "_loader-circle-4R6y0Q9_.js": {
+    "file": "assets/loader-circle-4R6y0Q9_.js",
     "name": "loader-circle",
     "imports": [
-      "_x-DQ-CK9g8.js"
+      "_x-DHc-taZH.js"
     ]
   },
-  "_lock-keyhole-DQHQCi0g.js": {
-    "file": "assets/lock-keyhole-DQHQCi0g.js",
+  "_lock-keyhole-D-j1sbAq.js": {
+    "file": "assets/lock-keyhole-D-j1sbAq.js",
     "name": "lock-keyhole",
     "imports": [
-      "_x-DQ-CK9g8.js"
+      "_x-DHc-taZH.js"
     ]
   },
-  "_radio-Cnt4mBr0.js": {
-    "file": "assets/radio-Cnt4mBr0.js",
+  "_play-DmugMeT_.js": {
+    "file": "assets/play-DmugMeT_.js",
+    "name": "play",
+    "imports": [
+      "_x-DHc-taZH.js"
+    ]
+  },
+  "_radio-CJ89v3Ar.js": {
+    "file": "assets/radio-CJ89v3Ar.js",
     "name": "radio",
     "imports": [
-      "_x-DQ-CK9g8.js"
+      "_x-DHc-taZH.js"
     ]
   },
-  "_shield-alert-CqwMERso.js": {
-    "file": "assets/shield-alert-CqwMERso.js",
+  "_shield-alert-BVshTMlh.js": {
+    "file": "assets/shield-alert-BVshTMlh.js",
     "name": "shield-alert",
     "imports": [
-      "_x-DQ-CK9g8.js"
+      "_x-DHc-taZH.js"
     ]
   },
-  "_sparkles-BRId6woh.js": {
-    "file": "assets/sparkles-BRId6woh.js",
+  "_sparkles-Cb-OvI0t.js": {
+    "file": "assets/sparkles-Cb-OvI0t.js",
     "name": "sparkles",
     "imports": [
-      "_x-DQ-CK9g8.js"
+      "_x-DHc-taZH.js"
     ]
   },
-  "_useEquipmentAction-CwtNWebd.js": {
-    "file": "assets/useEquipmentAction-CwtNWebd.js",
+  "_useEquipmentAction-BQiEuBKk.js": {
+    "file": "assets/useEquipmentAction-BQiEuBKk.js",
     "name": "useEquipmentAction",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_wrench-D5UGscPj.js": {
-    "file": "assets/wrench-D5UGscPj.js",
+  "_wrench-BzZKkY0v.js": {
+    "file": "assets/wrench-BzZKkY0v.js",
     "name": "wrench",
     "imports": [
-      "_x-DQ-CK9g8.js"
+      "_x-DHc-taZH.js"
     ]
   },
-  "_x-DQ-CK9g8.js": {
-    "file": "assets/x-DQ-CK9g8.js",
+  "_x-DHc-taZH.js": {
+    "file": "assets/x-DHc-taZH.js",
     "name": "x",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_zap-DL1zFumy.js": {
-    "file": "assets/zap-DL1zFumy.js",
+  "_zap-DoJKnqFX.js": {
+    "file": "assets/zap-DoJKnqFX.js",
     "name": "zap",
     "imports": [
-      "_x-DQ-CK9g8.js"
+      "_x-DHc-taZH.js"
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-eFDMVAbL.css",
+    "file": "assets/app-v2CRrQ8P.css",
     "name": "app",
     "names": [
       "app.css"
@@ -142,7 +149,7 @@
     "isEntry": true
   },
   "resources/js/Pages/Arsenal.jsx": {
-    "file": "assets/Arsenal-CnVa-5Xa.js",
+    "file": "assets/Arsenal-C_-n4vc8.js",
     "name": "Arsenal",
     "src": "resources/js/Pages/Arsenal.jsx",
     "isDynamicEntry": true,
@@ -151,163 +158,165 @@
     ]
   },
   "resources/js/Pages/Auth/Login.jsx": {
-    "file": "assets/Login-CCiqxCFl.js",
+    "file": "assets/Login-qSvDwPhT.js",
     "name": "Login",
     "src": "resources/js/Pages/Auth/Login.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_x-DQ-CK9g8.js",
-      "_loader-circle-ctOOq3VJ.js",
-      "_shield-alert-CqwMERso.js",
-      "_PublicFooter-Bzc2f25A.js",
-      "_radio-Cnt4mBr0.js"
+      "_x-DHc-taZH.js",
+      "_loader-circle-4R6y0Q9_.js",
+      "_shield-alert-BVshTMlh.js",
+      "_PublicFooter-DSwQKb6S.js",
+      "_radio-CJ89v3Ar.js"
     ]
   },
   "resources/js/Pages/Auth/Register.jsx": {
-    "file": "assets/Register-BS-VCzQf.js",
+    "file": "assets/Register-BsqS6JQy.js",
     "name": "Register",
     "src": "resources/js/Pages/Auth/Register.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_x-DQ-CK9g8.js",
-      "_loader-circle-ctOOq3VJ.js",
-      "_shield-alert-CqwMERso.js",
-      "_PublicFooter-Bzc2f25A.js",
-      "_radio-Cnt4mBr0.js",
-      "_sparkles-BRId6woh.js"
+      "_x-DHc-taZH.js",
+      "_loader-circle-4R6y0Q9_.js",
+      "_shield-alert-BVshTMlh.js",
+      "_PublicFooter-DSwQKb6S.js",
+      "_radio-CJ89v3Ar.js",
+      "_sparkles-Cb-OvI0t.js"
     ]
   },
   "resources/js/Pages/Game/Arsenal.jsx": {
-    "file": "assets/Arsenal-4YnPL28Y.js",
+    "file": "assets/Arsenal-CH6gX-B7.js",
     "name": "Arsenal",
     "src": "resources/js/Pages/Game/Arsenal.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_x-DQ-CK9g8.js",
-      "_PlayerShell-Dvi6-1Ei.js",
-      "_wrench-D5UGscPj.js",
-      "_check-D-yyBD1_.js",
-      "_lock-keyhole-DQHQCi0g.js",
-      "_SkinCollection-edsHNuam.js",
-      "_EquipmentArt-mHC7mL_Q.js",
+      "_x-DHc-taZH.js",
+      "_PlayerShell-DhEldB6S.js",
+      "_wrench-BzZKkY0v.js",
+      "_check-Cd_zvMAB.js",
+      "_lock-keyhole-D-j1sbAq.js",
+      "_SkinCollection-BpEzrGLo.js",
+      "_EquipmentArt-FMT6Or97.js",
       "_equipment-CxJen-T6.js",
-      "_useEquipmentAction-CwtNWebd.js"
+      "_useEquipmentAction-BQiEuBKk.js"
     ]
   },
   "resources/js/Pages/Game/Index.jsx": {
-    "file": "assets/Index-CSrTGa5P.js",
+    "file": "assets/Index-DlFJETFU.js",
     "name": "Index",
     "src": "resources/js/Pages/Game/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_x-DQ-CK9g8.js",
-      "_PlayerShell-Dvi6-1Ei.js",
-      "_wrench-D5UGscPj.js",
-      "_radio-Cnt4mBr0.js",
-      "_zap-DL1zFumy.js",
-      "_EquipmentArt-mHC7mL_Q.js",
+      "_x-DHc-taZH.js",
+      "_PlayerShell-DhEldB6S.js",
+      "_wrench-BzZKkY0v.js",
+      "_play-DmugMeT_.js",
+      "_radio-CJ89v3Ar.js",
+      "_zap-DoJKnqFX.js",
+      "_EquipmentArt-FMT6Or97.js",
       "_equipment-CxJen-T6.js"
     ]
   },
   "resources/js/Pages/Game/Upgrades.jsx": {
-    "file": "assets/Upgrades-BZckESHZ.js",
+    "file": "assets/Upgrades-ChQlyVLN.js",
     "name": "Upgrades",
     "src": "resources/js/Pages/Game/Upgrades.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_x-DQ-CK9g8.js",
-      "_PlayerShell-Dvi6-1Ei.js",
-      "_wrench-D5UGscPj.js",
-      "_check-D-yyBD1_.js",
-      "_lock-keyhole-DQHQCi0g.js",
-      "_zap-DL1zFumy.js",
-      "_EquipmentArt-mHC7mL_Q.js",
+      "_x-DHc-taZH.js",
+      "_PlayerShell-DhEldB6S.js",
+      "_wrench-BzZKkY0v.js",
+      "_check-Cd_zvMAB.js",
+      "_lock-keyhole-D-j1sbAq.js",
+      "_zap-DoJKnqFX.js",
+      "_EquipmentArt-FMT6Or97.js",
       "_equipment-CxJen-T6.js",
-      "_useEquipmentAction-CwtNWebd.js"
+      "_useEquipmentAction-BQiEuBKk.js"
     ]
   },
   "resources/js/Pages/Landing.jsx": {
-    "file": "assets/Landing-dk6s20nV.js",
+    "file": "assets/Landing-OAIrXLTJ.js",
     "name": "Landing",
     "src": "resources/js/Pages/Landing.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_x-DQ-CK9g8.js",
-      "_arrow-down-CUaxlbfN.js",
-      "_wrench-D5UGscPj.js",
-      "_PublicFooter-Bzc2f25A.js",
-      "_radio-Cnt4mBr0.js",
-      "_zap-DL1zFumy.js",
-      "_EquipmentArt-mHC7mL_Q.js"
+      "_x-DHc-taZH.js",
+      "_arrow-down-BJ43nInO.js",
+      "_wrench-BzZKkY0v.js",
+      "_PublicFooter-DSwQKb6S.js",
+      "_play-DmugMeT_.js",
+      "_radio-CJ89v3Ar.js",
+      "_zap-DoJKnqFX.js",
+      "_EquipmentArt-FMT6Or97.js"
     ]
   },
   "resources/js/Pages/Legal/Cookies.jsx": {
-    "file": "assets/Cookies-ClrElJzt.js",
+    "file": "assets/Cookies-WxpjJplj.js",
     "name": "Cookies",
     "src": "resources/js/Pages/Legal/Cookies.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_LegalLayout--Gy_G6Qo.js"
+      "_LegalLayout-Tu1HmX9b.js"
     ]
   },
   "resources/js/Pages/Legal/Privacy.jsx": {
-    "file": "assets/Privacy-CU9aI5VR.js",
+    "file": "assets/Privacy-Bki9CpvE.js",
     "name": "Privacy",
     "src": "resources/js/Pages/Legal/Privacy.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_LegalLayout--Gy_G6Qo.js"
+      "_LegalLayout-Tu1HmX9b.js"
     ]
   },
   "resources/js/Pages/Legal/Terms.jsx": {
-    "file": "assets/Terms-BaZ5lEW-.js",
+    "file": "assets/Terms-lmba4Hgj.js",
     "name": "Terms",
     "src": "resources/js/Pages/Legal/Terms.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_LegalLayout--Gy_G6Qo.js"
+      "_LegalLayout-Tu1HmX9b.js"
     ]
   },
   "resources/js/Pages/Shop.jsx": {
-    "file": "assets/Shop-D7zh7tHk.js",
+    "file": "assets/Shop-CuvlbqmE.js",
     "name": "Shop",
     "src": "resources/js/Pages/Shop.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_x-DQ-CK9g8.js",
-      "_PlayerShell-Dvi6-1Ei.js",
-      "_wrench-D5UGscPj.js",
-      "_check-D-yyBD1_.js",
-      "_loader-circle-ctOOq3VJ.js",
-      "_sparkles-BRId6woh.js",
-      "_zap-DL1zFumy.js"
+      "_x-DHc-taZH.js",
+      "_PlayerShell-DhEldB6S.js",
+      "_wrench-BzZKkY0v.js",
+      "_check-Cd_zvMAB.js",
+      "_loader-circle-4R6y0Q9_.js",
+      "_sparkles-Cb-OvI0t.js",
+      "_zap-DoJKnqFX.js"
     ]
   },
   "resources/js/Pages/Wardrobe.jsx": {
-    "file": "assets/Wardrobe-60x-u4Ap.js",
+    "file": "assets/Wardrobe-02xODXxo.js",
     "name": "Wardrobe",
     "src": "resources/js/Pages/Wardrobe.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_x-DQ-CK9g8.js",
-      "_PlayerShell-Dvi6-1Ei.js",
-      "_wrench-D5UGscPj.js",
-      "_SkinCollection-edsHNuam.js"
+      "_x-DHc-taZH.js",
+      "_PlayerShell-DhEldB6S.js",
+      "_wrench-BzZKkY0v.js",
+      "_SkinCollection-BpEzrGLo.js"
     ]
   },
   "resources/js/app.jsx": {
-    "file": "assets/app-CUA3mwVU.js",
+    "file": "assets/app-CmPZkMvU.js",
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,
@@ -326,7 +335,7 @@
       "resources/js/Pages/Wardrobe.jsx"
     ],
     "css": [
-      "assets/app-eFDMVAbL.css"
+      "assets/app-v2CRrQ8P.css"
     ]
   }
 }
