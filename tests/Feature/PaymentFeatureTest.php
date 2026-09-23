@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Mail\TopUpSuccessMail;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class PaymentFeatureTest extends TestCase
@@ -209,5 +211,48 @@ class PaymentFeatureTest extends TestCase
 
         // Should still be 650, not 1200
         $this->assertEquals(650, $user->gems);
+    }
+
+    public function test_topup_dispatches_topup_success_mail_with_pdf_invoice(): void
+    {
+        Mail::fake();
+
+        $user = User::factory()->create([
+            'email' => 'commander.test@domain.com',
+            'gems' => 50,
+        ]);
+
+        $this->actingAs($user)->post('/payments/create-session', [
+            'pack_id' => 'pack_small',
+            'currency' => 'USD',
+        ]);
+
+        Mail::assertSent(TopUpSuccessMail::class, function ($mail) use ($user) {
+            $this->assertEquals($user->email, $mail->user->email);
+            $attachments = $mail->attachments();
+            $this->assertNotEmpty($attachments);
+
+            return true;
+        });
+    }
+
+    public function test_user_can_download_pdf_invoice(): void
+    {
+        $user = User::factory()->create();
+        $payment = Payment::create([
+            'user_id' => $user->id,
+            'payment_id' => 'pay_test_invoice_999',
+            'amount' => 9.99,
+            'currency' => 'USD',
+            'gems_granted' => 1200,
+            'gold_granted' => 0,
+            'status' => 'completed',
+        ]);
+
+        $response = $this->get('/payments/'.$payment->payment_id.'/invoice');
+
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/pdf');
+        $this->assertStringStartsWith('%PDF-1.4', $response->getContent());
     }
 }

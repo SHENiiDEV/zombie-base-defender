@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TopUpSuccessMail;
 use App\Models\Payment;
 use App\Models\User;
+use App\Services\PdfInvoiceGenerator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -376,6 +381,12 @@ class PaymentController extends Controller
             }
         });
 
+        try {
+            Mail::to($user->email)->send(new TopUpSuccessMail($payment, $user));
+        } catch (\Throwable $e) {
+            Log::error('Failed to dispatch TopUpSuccessMail: '.$e->getMessage());
+        }
+
         if ($request->wantsJson()) {
             return response()->json([
                 'status' => 'success',
@@ -398,6 +409,21 @@ class PaymentController extends Controller
         }
 
         return back()->with('success', 'Top-up successful! Added '.implode(' and ', $summary).' to your account.');
+    }
+
+    /**
+     * Download or view the PDF invoice for a completed payment.
+     */
+    public function downloadInvoice(string $paymentId, PdfInvoiceGenerator $generator): HttpResponse
+    {
+        $payment = Payment::where('payment_id', $paymentId)->firstOrFail();
+        $pdfData = $generator->generate($payment, $payment->user);
+
+        return response($pdfData, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="invoice-'.$payment->payment_id.'.pdf"',
+            'Cache-Control' => 'private, max-age=3600',
+        ]);
     }
 
     /**

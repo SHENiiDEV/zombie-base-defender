@@ -50,6 +50,15 @@ class HandleInertiaRequests extends Middleware
                 'cookies' => route('legal.cookies', [], false),
                 'topUp' => route('payments.create-session', [], false),
             ],
+            'auth' => [
+                'user' => $request->user() ? [
+                    'id' => $request->user()->id,
+                    'name' => $request->user()->name,
+                    'email' => $request->user()->email,
+                    'gold' => $request->user()->gold,
+                    'gems' => $request->user()->gems,
+                ] : null,
+            ],
             'gem_packs' => PaymentController::PACKS,
         ];
     }

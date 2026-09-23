@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
-import { Crosshair, Gem, Coins, ArrowUpRight, Shield, Wrench, Swords, Sparkles, ArrowLeft, Radio, LogOut } from 'lucide-react';
+import { Crosshair, Gem, Coins, ArrowUpRight, Shield, Wrench, Swords, Sparkles, ArrowLeft, Radio, LogOut, UserPlus } from 'lucide-react';
 import TopUpModal from './TopUpModal';
+import AuthModal from './AuthModal';
 
 export default function PlayerShell({ player, active, children, onShopChange, onNavigate }) {
-    const { navigation = {} } = usePage().props || {};
+    const { navigation = {}, auth = {} } = usePage().props || {};
     const [shopOpen, setShopOpen] = useState(false);
+    const [authOpen, setAuthOpen] = useState(false);
+    const [authMode, setAuthMode] = useState('register');
     const toggleShop = (open) => {
         setShopOpen(open);
         onShopChange?.(open);
@@ -87,6 +90,16 @@ export default function PlayerShell({ player, active, children, onShopChange, on
                 </span>
                 <button
                     type="button"
+                    onClick={() => { setAuthMode('register'); setAuthOpen(true); }}
+                    className="player-context-logout"
+                    style={{ borderColor: 'rgba(86, 212, 194, 0.4)', color: '#56d4c2' }}
+                    title="Enlist new commander or log in"
+                >
+                    <UserPlus size={12} />
+                    <span>ENLIST / SWITCH</span>
+                </button>
+                <button
+                    type="button"
                     onClick={handleLogout}
                     className="player-context-logout"
                     title="Sign out"
@@ -109,6 +122,7 @@ export default function PlayerShell({ player, active, children, onShopChange, on
             </footer>
 
             <TopUpModal isOpen={shopOpen} onClose={() => toggleShop(false)} currentGems={safePlayer.gems || 0} />
+            <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialMode={authMode} />
         </div>
     );
 }

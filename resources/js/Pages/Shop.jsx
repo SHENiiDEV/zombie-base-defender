@@ -800,6 +800,7 @@ export default function Shop({
                                     <th style={{ padding: '12px 18px' }}>ASSETS GRANTED</th>
                                     <th style={{ padding: '12px 18px' }}>PAID AMOUNT</th>
                                     <th style={{ padding: '12px 18px' }}>STATUS</th>
+                                    <th style={{ padding: '12px 18px', textAlign: 'right' }}>INVOICE</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -821,6 +822,28 @@ export default function Shop({
                                             </td>
                                             <td style={{ padding: '12px 18px', color: '#86efac', textTransform: 'uppercase' }}>
                                                 {p.status}
+                                            </td>
+                                            <td style={{ padding: '12px 18px', textAlign: 'right' }}>
+                                                <a
+                                                    href={`/payments/${p.payment_id}/invoice`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    style={{
+                                                        display: 'inline-flex',
+                                                        alignItems: 'center',
+                                                        gap: '4px',
+                                                        color: '#56d4c2',
+                                                        textDecoration: 'none',
+                                                        border: '1px solid rgba(86, 212, 194, 0.4)',
+                                                        padding: '4px 8px',
+                                                        fontSize: '10px',
+                                                        fontFamily: 'monospace',
+                                                        borderRadius: '2px',
+                                                        background: 'rgba(86, 212, 194, 0.08)',
+                                                    }}
+                                                >
+                                                    PDF &darr;
+                                                </a>
                                             </td>
                                         </tr>
                                     );

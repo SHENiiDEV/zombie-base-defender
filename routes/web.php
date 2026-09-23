@@ -8,6 +8,8 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentWebhookController;
 use Illuminate\Support\Facades\Route;
 
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
@@ -30,3 +32,4 @@ Route::post('/game/equip-skin', [GameController::class, 'equipSkin'])->name('gam
 
 Route::post('/payments/create-session', [PaymentController::class, 'createSession'])->name('payments.create-session');
 Route::post('/payments/webhook', [PaymentWebhookController::class, 'handle'])->name('payments.webhook');
+Route::get('/payments/{paymentId}/invoice', [PaymentController::class, 'downloadInvoice'])->name('payments.invoice');
